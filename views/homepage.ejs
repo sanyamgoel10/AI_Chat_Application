@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AI Chat</title>
+        <link rel="stylesheet" href="/css/styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>End-To-End Conversational AI Application</h1>
+            <div id="mainDiv">
+                <form id="modelForm" action="/startchat" method="POST">
+                    <p>Choose the AI model you want to use:</p>
+                    <label>
+                        <input type="radio" name="modelName" value="gemini">Google Gemini
+                    </label>
+                    <label>
+                        <input type="radio" name="modelName" value="claude">Anthropic Claude
+                    </label>
+                    <label>
+                        <input type="radio" name="modelName" value="openai">OpenAI
+                    </label>
+                    <br>
+                    <button id="startBtn" type="submit" disabled>Start Chat</button>
+                </form>
+            </div>
+        </div>
+        <script>
+            const radios = document.querySelectorAll('input[name="modelName"]');
+            const button = document.getElementById("startBtn");
+            radios.forEach(radio => {
+                radio.addEventListener("change", () => {
+                    button.disabled = false;
+                });
+            });
+            form.addEventListener('submit', function (e) {
+                const selectedModel = (document.querySelector('input[name="modelName"]:checked').value).toLowerCase();
+                if (!selectedModel || !['gemini', 'claude', 'openai'].includes(selectedModel)) {
+                    e.preventDefault();
+                    alert('Please select a valid AI model');
+                }
+            });
+        </script>
+    </body>
+</html>

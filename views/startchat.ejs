@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AI Chatbot</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/css/styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>End-To-End Conversational AI Application</h1>
+            <div id="mainDiv">
+                <h3>Connected to <%= modelName %></h3>
+                <div id="chatContainer">
+                    <div id="chatMessages"></div>
+                    <div id="chatInputArea">
+                        <input type="text" id="chatInput" placeholder="Type your message..." />
+                        <button onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            const socket = io(`http://${window.location.host}`);
+            
+            socket.on('connect', () => {
+                console.log(`Connected to server with socket ID: ${socket.id}`);
+            });
+
+            socket.on('response', (data) => {
+                $('#chatMessages').append(`
+                    <div class="answer"><strong><%= modelName %>:</strong> ${data}</div>
+                `);
+            });
+
+            // Handle disconnection event
+            socket.on('disconnect', () => {
+                console.log('Disconnected from server');
+                $('#chatMessages').append(`
+                    <div class="answer" style="background-color: #FF474C;">Disconnected from the server. Please refresh the page.</div>
+                `);
+            });
+
+            // Handle errors
+            socket.on('error', (error) => {
+                console.error('Socket error:', error);
+                $('#chatMessages').append(`
+                    <div class="answer" style="background-color: #FF474C;">Error: ${error.message}</div>
+                `);
+            });
+
+            function sendMessage() {
+                let userInput = $('#chatInput').val().trim();
+                if (userInput){
+                    $('#chatMessages').append(`
+                        <div class="question"><strong>You:</strong> ${userInput}</div>
+                    `);
+                    $('#chatInput').val('').focus();
+
+                    socket.emit('query', userInput);
+
+                    $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
+                }
+            }
+        </script>
+    </body>
+</html>
