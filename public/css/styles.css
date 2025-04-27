@@ -51,11 +51,13 @@ h1, h3 {
 .question {
     align-self: flex-end;
     background-color: #d1e7ff;
+    text-align: right;
 }
 
 .answer {
     align-self: flex-start;
     background-color: #e2ffe1;
+    text-align: left;
 }
 
 #chatInputArea {
