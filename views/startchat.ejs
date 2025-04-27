@@ -10,6 +10,7 @@
         <div class="container">
             <h1>End-To-End Conversational AI Application</h1>
             <div id="mainDiv">
+                <button onclick="redirectHomePage()">Homepage</button>
                 <h3>Connected to <%= modelName %></h3>
                 <div id="chatContainer">
                     <div id="chatMessages"></div>
@@ -66,6 +67,10 @@
 
                     $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
                 }
+            }
+
+            function redirectHomePage(){
+                window.location.href = '/';
             }
         </script>
     </body>
