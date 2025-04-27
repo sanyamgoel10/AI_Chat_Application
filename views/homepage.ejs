@@ -20,7 +20,7 @@
                     <label>
                         <input type="radio" name="modelName" value="openai">OpenAI
                     </label>
-                    <br>
+                    <br><br>
                     <button id="startBtn" type="submit" disabled>Start Chat</button>
                 </form>
             </div>
@@ -28,6 +28,7 @@
         <script>
             const radios = document.querySelectorAll('input[name="modelName"]');
             const button = document.getElementById("startBtn");
+            const form = document.getElementById("modelForm");
             radios.forEach(radio => {
                 radio.addEventListener("change", () => {
                     button.disabled = false;

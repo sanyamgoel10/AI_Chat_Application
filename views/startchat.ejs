@@ -59,7 +59,10 @@
                     `);
                     $('#chatInput').val('').focus();
 
-                    socket.emit('query', userInput);
+                    socket.emit('query', {
+                        query: userInput,
+                        model: "<%= modelName %>"
+                    });
 
                     $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
                 }
