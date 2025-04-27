@@ -33,8 +33,39 @@ async function googleGeminiQuery(contextWindow) {
     return 'Something went wrong in gemini response, Please try again';
 }
 
-async function claudeQuery(query) {
-    return "claudeQuery response";
+async function claudeQuery(contextWindow) {
+    let requestUrl = config['claudeConfig']['url'];
+    let requestHeaders = {
+        'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'x-api-key': config['claudeConfig']['key']
+    }
+    let requestBody = {
+        model: "claude-3-opus-20240229",
+        max_tokens: 1024,
+        messages: []
+    };
+    for(let i = 0; i < contextWindow.length; i++){
+        let role;
+        if(i == 0 || i%2 == 0){
+            role = 'user';
+        }else{
+            role = 'assistant';
+        }
+        requestBody['messages'].push({
+            role,
+            "content": contextWindow[i]
+        });
+    }
+    let apiResp = await postRequest(requestUrl, requestHeaders, requestBody);
+    if('string' == typeof apiResp){
+        apiResp = JSON.parse(apiResp);
+    }
+    console.log("apiResp: ", apiResp);
+    if(apiResp['content'] && apiResp['content'].length > 0 && apiResp['content'][0]['text']){
+        return apiResp['content'][0]['text'];
+    }
+    return "Something went wrong in claude response, Please try again";
 }
 
 async function openAiQuery(query) {
