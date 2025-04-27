@@ -61,15 +61,43 @@ async function claudeQuery(contextWindow) {
     if('string' == typeof apiResp){
         apiResp = JSON.parse(apiResp);
     }
-    console.log("apiResp: ", apiResp);
     if(apiResp['content'] && apiResp['content'].length > 0 && apiResp['content'][0]['text']){
         return apiResp['content'][0]['text'];
     }
     return "Something went wrong in claude response, Please try again";
 }
 
-async function openAiQuery(query) {
-    return "openAiQuery response";
+async function openAiQuery(contextWindow) {
+    let requestUrl = config['openaiConfig']['url'];
+    let requestHeaders = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${config['openaiConfig']['key']}`
+    }
+    let requestBody = {
+        model: "gpt-3.5-turbo",
+        max_tokens: 1024,
+        messages: []
+    };
+    for(let i = 0; i < contextWindow.length; i++){
+        let role;
+        if(i == 0 || i%2 == 0){
+            role = 'user';
+        }else{
+            role = 'assistant';
+        }
+        requestBody['messages'].push({
+            role,
+            content: contextWindow[i]
+        });
+    }
+    let apiResp = await postRequest(requestUrl, requestHeaders, requestBody);
+    if('string' == typeof apiResp){
+        apiResp = JSON.parse(apiResp);
+    }
+    if(apiResp['choices'] && apiResp['choices'].length > 0 && apiResp['choices'][0]['message'] && apiResp['choices'][0]['message']['content']){
+        return apiResp['choices'][0]['message']['content'];
+    }
+    return "Something went wrong in OpenAI response, Please try again";
 }
 
 module.exports = { googleGeminiQuery, claudeQuery, openAiQuery };
