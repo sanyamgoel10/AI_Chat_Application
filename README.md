@@ -25,8 +25,8 @@ To set up the application locally, follow these steps:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/ai-chat-application.git
-    cd ai-chat-application
+    git clone https://github.com/sanyamgoel10/AI_Chat_Application.git
+    cd AI_Chat_Application
     ```
 
 2. **Install dependencies**:
@@ -38,9 +38,9 @@ To set up the application locally, follow these steps:
     - Create a `.env` file in the root of the project.
     - Add your AI model API keys or other necessary configuration like this:
       ```
-      GEMINI_API_KEY=your_gemini_api_key
-      CLAUDE_API_KEY=your_claude_api_key
-      OPENAI_API_KEY=your_openai_api_key
+      GEMINI_CONFIG_KEY=your_gemini_api_key
+      CLAUDE_CONFIG_KEY=your_claude_api_key
+      OPENAI_CONFIG_KEY=your_openai_api_key
       ```
 
 4. **Run the application**:
