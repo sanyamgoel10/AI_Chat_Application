@@ -22,6 +22,7 @@
             </div>
         </div>
 
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script>
             const socket = io(`http://${window.location.host}`);
@@ -32,8 +33,9 @@
 
             socket.on('response', (data) => {
                 $('#chatMessages').append(`
-                    <div class="answer"><strong><%= modelName %>:</strong> ${data}</div>
+                    <div class="answer"><strong>AI Model Response:</strong> ${marked.parse(data)}</div>
                 `);
+                $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
             });
 
             // Handle disconnection event

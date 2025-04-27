@@ -42,7 +42,7 @@ h1, h3 {
 .question, .answer {
     padding: 10px 14px;
     border-radius: 8px;
-    max-width: 70%;
+    max-width: 100%;
     word-wrap: break-word;
     font-size: 15px;
     line-height: 1.4;
